@@ -60,6 +60,7 @@
 #include "horde_entity.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_replay.h"
 #include "json.h"
 #include "line.h"
 #include "loading_ui.h"
@@ -474,10 +475,35 @@ static void detect_renderer_backend()
     const char *actual_name = props != 0
                               ? SDL_GetStringProperty( props, SDL_PROP_RENDERER_NAME_STRING, "" )
                               : "";
-    dbg( D_INFO ) << "SDL renderer in use: " << ( actual_name ? actual_name : "unknown" );
+    // Diagnostic: the selected renderer name alone is not enough to predict the
+    // mid-frame render-target-switch crash. When the renderer is "gpu", the real
+    // culprit is the backing SDL_gpu device driver (direct3d12 vs vulkan): the
+    // crash was only seen on direct3d12. Use DebugLog(..., DC_ALL) rather than the
+    // file-local dbg() macro: dbg() logs under category D_SDL, which is filtered
+    // out of debug.log by default, so it would never land. DC_ALL always shows.
+    const char *gpu_driver = "n/a";
+    SDL_GPUDevice *gpu_dev = props != 0
+                             ? static_cast<SDL_GPUDevice *>( SDL_GetPointerProperty(
+                                     props, SDL_PROP_RENDERER_GPU_DEVICE_POINTER, nullptr ) )
+                             : nullptr;
+    if( gpu_dev ) {
+        const char *drv = SDL_GetGPUDeviceDriver( gpu_dev );
+        if( drv ) {
+            gpu_driver = drv;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "SDL renderer in use: "
+                               << ( actual_name ? actual_name : "unknown" )
+                               << "; backing GPU driver: " << gpu_driver;
     if( actual_name && std::string( actual_name ).find( "direct3d" ) != std::string::npos ) {
         direct3d_mode = true;
     }
+    // The "gpu" renderer on the D3D12 driver crashes on mid-frame render-target
+    // switches (see gpu_d3d12_mode doc). Detect that exact combination so the
+    // tint overlay can avoid its render-target-switching path on this backend.
+    gpu_d3d12_mode = actual_name &&
+                     std::string( actual_name ) == "gpu" &&
+                     std::string( gpu_driver ).find( "direct3d12" ) != std::string::npos;
 #endif
 }
 
@@ -3087,7 +3113,7 @@ std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
             }
         }
 
-        get_rotation_and_subtile( val, -1, rota, subtile );
+        map::get_rotation_and_subtile( val, -1, rota, subtile );
     } else if( ot_type.has_flag( oter_flags::water ) ) {
         // water looks nicer if it connects together
         char val = 0;
@@ -3099,7 +3125,7 @@ std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
             }
         }
 
-        get_rotation_and_subtile( val, -1, rota, subtile );
+        map::get_rotation_and_subtile( val, -1, rota, subtile );
     } else {
         // 'Regular', nonlinear terrain only needs to worry about rotation, not
         // subtile
@@ -6583,6 +6609,16 @@ void input_manager::pump_events()
 // is simply a wrapper around this.
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
 {
+    // Replay takes precedence over the test_mode guard: a replaying session
+    // sources input from the log instead of polling SDL.
+    if( input_replay::is_replaying() ) {
+        input_event replayed;
+        if( input_replay::try_replay( replayed ) ) {
+            previously_pressed_key = replayed.get_first_input();
+            return replayed;
+        }
+        // Replay log exhausted: fall through to normal polling.
+    }
     if( test_mode ) {
         // input should be skipped in caller's code
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
@@ -6671,6 +6707,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     }
 #endif
 
+    input_replay::on_record( last_input );
     return last_input;
 }
 

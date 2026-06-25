@@ -60,6 +60,7 @@ class window;
 } // namespace catacurses
 class Character;
 class Creature;
+class avatar;
 class basecamp;
 class character_id;
 class computer;
@@ -585,6 +586,16 @@ class map
         // clears map memory for points occupied by vehicle and marks "dirty" for re-memorizing
         void memory_clear_vehicle_points( const vehicle &veh ) const;
 
+        // Sim-side map-memory update pass (Stage 1 of sim/render decoupling).
+        // Walks the avatar's current field of view and writes everything just
+        // seen into player map memory (terrain/furniture/trap/partial-construction/
+        // vehicle-part), computing subtile/rotation via the map:: orientation
+        // helpers.  This used to live in the tiles draw path (memorize_only); it
+        // now runs in do_turn so rendering can become pure-read.  Must be called
+        // after the map cache is built and before the visibility cache is
+        // invalidated.
+        void update_map_memory( avatar &you );
+
         /**
          * A pre-filter for bresenham LOS.
          * true, if there might be a potential bresenham path between two points.
@@ -1098,6 +1109,42 @@ class map
                                         const std::map<tripoint_bub_ms, ter_id> &override = {},
                                         const std::map<tripoint_bub_ms, furn_id> &override_f = {} ) const;
 
+        // -----------------------------------------------------------------------
+        // Sim-side tile orientation helpers (Stage 1 of sim/render decoupling).
+        // Extracted from cata_tiles so the memory-update pass in do_turn can
+        // compute subtile/rotation when memorising seen tiles, without depending
+        // on the tiles subsystem.
+        // -----------------------------------------------------------------------
+        // Pure-math rotation helpers (no map state needed).
+        static void get_rotation_and_subtile( char val, char rot_to, int &rotation, int &subtile );
+        static int  get_rotation_unconnected( char rot_to );
+        static int  get_rotation_edge_ns( char rot_to );
+        static int  get_rotation_edge_ew( char rot_to );
+
+        // Terrain/furniture connection values + orientation — call get_map() internally.
+        // ter_override / furn_override are populated only on the render preview path;
+        // pass empty maps from the sim-side memory-update pass.
+        static void get_connect_values( const tripoint_bub_ms &p, int &subtile, int &rotation,
+                                        const std::bitset<NUM_TERCONN> &connect_group,
+                                        const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                        const std::map<tripoint_bub_ms, ter_id> &ter_override = {} );
+        static void get_furn_connect_values( const tripoint_bub_ms &p, int &subtile, int &rotation,
+                                             const std::bitset<NUM_TERCONN> &connect_group,
+                                             const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                             const std::map<tripoint_bub_ms, furn_id> &furn_override = {} );
+        static void get_terrain_orientation( const tripoint_bub_ms &p, int &rota, int &subtile,
+                                             const std::map<tripoint_bub_ms, ter_id> &ter_override,
+                                             const std::array<bool, 5> &invisible,
+                                             const std::bitset<NUM_TERCONN> &rotate_group );
+        // Compute subtile/rotation from a 4-neighbour sameness mask.
+        static void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
+                                     char rotation_targets );
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
+        static void get_tile_values_with_ter( const tripoint_bub_ms &p, int t,
+                                              const std::array<int, 4> &tn,
+                                              int &subtile, int &rotation,
+                                              const std::bitset<NUM_TERCONN> &rotate_to_group );
+
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -1112,6 +1159,8 @@ class map
         bool ter_set( const point_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
             return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain, avoid_creatures );
         }
+
+        void kill_creature( const tripoint_bub_ms &p, bool remove_corpse );
 
         std::string tername( const tripoint_bub_ms &p ) const;
 

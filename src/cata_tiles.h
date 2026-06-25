@@ -130,14 +130,6 @@ const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
 };
 
-enum class NEIGHBOUR {
-    SOUTH = 1,
-    EAST = 2,
-    WEST = 4,
-    NORTH = 8,
-    last
-};
-
 class tile_lookup_res
 {
         // references are stored as pointers to support copy assignment of the class
@@ -724,29 +716,6 @@ class cata_tiles
                            const point &offset, bool allow_diagonal_rota = false );
 
         /* Tile Picking */
-        void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
-                              char rotation_targets );
-        // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
-        void get_tile_values_with_ter( const tripoint_bub_ms &p, int t, const std::array<int, 4> &tn,
-                                       int &subtile, int &rotation,
-                                       const std::bitset<NUM_TERCONN> &rotate_to_group );
-        static void get_connect_values( const tripoint_bub_ms &p, int &subtile, int &rotation,
-                                        const std::bitset<NUM_TERCONN> &connect_group,
-                                        const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                        const std::map<tripoint_bub_ms, ter_id> &ter_override );
-        static void get_furn_connect_values( const tripoint_bub_ms &p, int &subtile, int &rotation,
-                                             const std::bitset<NUM_TERCONN> &connect_group,
-                                             const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                             const std::map<tripoint_bub_ms, furn_id> &furn_override );
-        void get_terrain_orientation( const tripoint_bub_ms &p, int &rota, int &subtile,
-                                      const std::map<tripoint_bub_ms, ter_id> &ter_override,
-                                      const std::array<bool, 5> &invisible,
-                                      const std::bitset<NUM_TERCONN> &rotate_group );
-
-        static void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
-        static int get_rotation_unconnected( char rot_to );
-        static int get_rotation_edge_ns( char rot_to );
-        static int get_rotation_edge_ew( char rot_to );
 
         /** Map memory */
         const memorized_tile &get_terrain_memory_at( const tripoint_abs_ms &p ) const;
@@ -759,29 +728,29 @@ class cata_tiles
         bool apply_vision_effects( const tripoint_bub_ms &pos, visibility_type visibility, int &height_3d );
         void draw_square_below( const point_bub_ms &p, const nc_color &col, int sizefactor );
         bool draw_terrain( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                           const std::array<bool, 5> &invisible, bool memorize_only );
+                           const std::array<bool, 5> &invisible );
         bool draw_furniture( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible, bool memorize_only );
+                             const std::array<bool, 5> &invisible );
         bool draw_graffiti( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible, bool memorize_only );
+                            const std::array<bool, 5> &invisible );
         bool draw_trap( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                        const std::array<bool, 5> &invisible, bool memorize_only );
+                        const std::array<bool, 5> &invisible );
         bool draw_part_con( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible, bool memorize_only );
+                            const std::array<bool, 5> &invisible );
         bool draw_field_or_item( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible, bool memorize_only );
+                                 const std::array<bool, 5> &invisible );
         bool draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                         const std::array<bool, 5> &invisible, bool roof, bool memorize_only );
+                         const std::array<bool, 5> &invisible, bool roof );
         bool draw_vpart_no_roof( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible, bool memorize_only );
+                                 const std::array<bool, 5> &invisible );
         bool draw_vpart_roof( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible, bool memorize_only );
+                              const std::array<bool, 5> &invisible );
         // Paint color to tint the vehicle part displayed at \p mount of \p veh,
         // or nullopt when it is unpainted or the VEHICLE_PART_COLOR option is off.
         std::optional<RGBColor> get_vpart_tint( const vehicle &veh,
                                                 const point_rel_ms &mount ) const;
         bool draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible, bool memorize_only );
+                              const std::array<bool, 5> &invisible );
         bool draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
 
@@ -791,9 +760,9 @@ class cata_tiles
         // by player_to_screen; zero for terrain/everything else.
         point m_entity_draw_offset;
         bool draw_zone_mark( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible, bool memorize_only );
+                             const std::array<bool, 5> &invisible );
         bool draw_zombie_revival_indicators( const tripoint_bub_ms &pos, lit_level ll, int &height_3d,
-                                             const std::array<bool, 5> &invisible, bool memorize_only );
+                                             const std::array<bool, 5> &invisible );
         void draw_zlevel_overlay( const tripoint_bub_ms &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p, lit_level ll,
                                         int &height_3d, FacingDirection facing_override = FacingDirection::NONE );
