@@ -952,7 +952,7 @@ static android_visible_frame_inbox visible_frame_inbox;
 
 extern "C" {
 
-    JNIEXPORT void JNICALL Java_com_cleverraven_cataclysmdda_CataclysmDDA_onNativeImeInsetsChanged(
+    JNIEXPORT void JNICALL Java_com_lyhglytx_cataclysmcb_CataclysmDDA_onNativeImeInsetsChanged(
         JNIEnv *env, jclass jcls, jint left, jint top, jint right, jint bottom, jboolean visible )
     {
         ( void )env; // unused

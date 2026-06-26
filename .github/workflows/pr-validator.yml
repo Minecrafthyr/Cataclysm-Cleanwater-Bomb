@@ -12,5 +12,5 @@ jobs:
       - name: "Validate SUMMARY"
         uses: CleverRaven/pr-validator@3ce0cce9c720b67a2a5e78e3b1eabe62ac92a156 # master
         with:
-          description-regex: '(\n|^)#### Summary\s+`{0,3}(SUMMARY:\s+)?(None|((Features|Content|Interface|Mods|Balance|Bugfixes|Performance|Infrastructure|Build|I18N) +".+"))`{0,3}\s*(\n|$)'
+          description-regex: '(\n|^)#### 概述 \(Summary\)\s+`{0,3}(SUMMARY:\s+)?(None|((特性|内容|界面|模组|平衡|错误修复|性能优化|基础设施|构建|国际化|Features|Content|Interface|Mods|Balance|Bugfixes|Performance|Infrastructure|Build|I18N) +".+"))`{0,3}\s*(\n|$)'
           description-regex-flags: 'i'

@@ -1,39 +1,60 @@
-# Changelog Guidelines
+# 更新日志指南
 
-These are the categories used by Pull Request Summary lines as outlined in the [PR Template](../.github/pull_request_template.md).
-In the end, it's up to the author to decide where *they* want their change to be listed, these are only guidelines, not rules.
+这些是拉取请求摘要行使用的类别，如 [PR 模板](../.github/pull_request_template.md)中所述。
+最终，由作者决定*他们*希望将更改列在何处，这些只是指南，而非规则。
 
+#### 无
 
-#### None
-Please consider a summary of "SUMMARY: None" for minor additions, fixes, and documentation changes. There are far too many changes made to the game to feature anything approaching all of them in the changelog. (Do not add any description in quotes - e.g., SUMMARY: None "whatever" - after a summary of "None".)
-#### Features
-If it adds something new that the player can do, or that can happen to the player, it's a feature.
-These will generally be edits to the C++ code in the game, though new json entities may be involved as well.
-#### Content
-If it adds new monsters, new map areas, new items, new vehicles, new doohickeys, it's content.
-These will generally be dominated by json edits, though there may be some new C++ code to support the new entities.
-#### Interface
-If it adjusts how the player interacts with the game, adding/adjusting menus, changing shortcuts, streamlining workflows, it's interface.
-These will generally be C++ edits, though some kinds of interface changes my be done in json.
-#### Mods
-If a change is either contained within a mod, or extends what is capable within a mod, it goes in this category.
-#### Balance
-Sometimes a change doesn't add or remove anything, but it makes everything work together better.
-These are probably evenly split between JSON and C++.
-#### Bugfixes
-If it was broken before, and it isn't anymore, that's a bugfix.
-This applies equally to C++ and JSON changes.
-#### Performance
-When there's no change at all except for less waiting, it's performance.
-These will almost always happen in C++.
-#### Infrastructure
-These are changes for programmers, by programmers.
-Most players will never even know these happened, but they'll appreciate the improved stability and features that this kind of things enables.
-All manner of refactor and overhaul oriented at making the game easier to work on fit in this category.
-These will frequently be C++ changes, but json reorganization also fits, as does development of tools that run outside the game.
-#### Build
-If you can't build the game, you can't play the game.
-These are the changes that make building the game better, faster, stronger.
-#### I18N
-We want everyone to play, so we do translations, and we have code to support translations.
-Changes oriented at letting everyone play no matter what their language go here.
+对于小的添加、修复和文档更改，请考虑使用“无”作为摘要。游戏中的更改太多了，无法在更新日志中全部列出。
+请勿在摘要“无”后添加任何引号和描述。
+
+#### 特性
+
+增加玩家可以做的新事情，或者可能发生在玩家身上的新事情。
+这些通常是对游戏 C++ 代码的编辑，但也可能涉及新的 JSON 对象。
+
+#### 内容
+
+增加了新的怪物、新的地图区域、新的物品、新的载具、新的小玩意儿。
+这些通常以 JSON 编辑为主，但也可能有一些新的 C++ 代码来支持新对象。
+
+#### 界面
+
+调整了玩家与游戏的交互方式，添加/调整菜单、更改快捷方式、简化工作流程。
+这些通常是 C++ 编辑，但某些类型的界面更改也可以在 JSON 中完成。
+
+#### 模组
+
+如果一项更改包含在模组中，或者扩展了模组的功能，则归为此类别。
+
+#### 平衡
+
+有时一项更改既不添加也不删除任何内容，但它使一切协同工作得更好。
+这些可能在 JSON 和 C++ 之间平均分配。
+
+#### 错误修复
+
+以前是坏的，现在好了。
+这同样适用于 C++ 和 JSON 更改。
+
+#### 性能优化
+
+除了等待时间减少之外几乎没有任何其他变化。
+这些几乎总是在 C++ 中发生。
+
+#### 基础设施
+
+这些是程序员为程序员所做的更改。
+大多数玩家可能永远不会知道这些更改发生了，但他们会欣赏这种改进的稳定性和它所带来的功能。
+所有旨在使游戏更容易工作的重构和改进都属于此类。
+这些通常是 C++ 更改，但 JSON 重组也适用，开发在游戏之外运行的工具也适用。
+
+#### 构建
+
+如果无法构建游戏，就无法玩游戏。
+这些是使游戏构建更好、更快、更强大的更改。
+
+#### 国际化
+
+我们希望每个人都能玩游戏，所以我们进行翻译，并且我们有支持翻译的代码。
+旨在让每个人都能玩游戏的更改，无论他们说什么语言，都归于此处。

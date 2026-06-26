@@ -126,46 +126,46 @@ class SummaryType:
     """Different valid Summary Types. Intended to be used as a enum/constant
     class, no instantiation needed."""
 
-    NONE = 'NONE'
-    FEATURES = 'FEATURES'
-    CONTENT = 'CONTENT'
-    INTERFACE = 'INTERFACE'
-    MODS = 'MODS'
-    BALANCE = 'BALANCE'
-    BUGFIXES = 'BUGFIXES'
-    PERFORMANCE = 'PERFORMANCE'
-    INFRASTRUCTURE = 'INFRASTRUCTURE'
-    BUILD = 'BUILD'
-    I18N = 'I18N'
+    NONE = '内容'
+    FEATURES = '特性'
+    CONTENT = '内容'
+    INTERFACE = '界面'
+    MODS = '模组'
+    BALANCE = '平衡'
+    BUGFIXES = '错误修复'
+    PERFORMANCE = '性能优化'
+    INFRASTRUCTURE = '基础设施'
+    BUILD = '构建'
+    I18N = '国际化'
 
 
-class CDDAPullRequest(PullRequest):
-    """A Pull Request with logic specific to CDDA Repository and their
+class CCBPullRequest(PullRequest):
+    """A Pull Request with logic specific to CCB Repository and their
     "Summary" descriptions"""
 
     SUMMARY_REGEX = re.compile(
-        r'(?i:####\sSummary)\s*'
-        r'`*(?i:SUMMARY:?\s*)?(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
+        r'(?i:####\s概述 \(Summary\))\s*'
+        r'(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
         re.MULTILINE)
 
     VALID_SUMMARY_CATEGORIES = (
-        'Content',
-        'Features',
-        'Interface',
-        'Mods',
-        'Balance',
-        'I18N',
-        'Bugfixes',
-        'Performance',
-        'Build',
-        'Infrastructure',
-        'None',
+        ('Content', '内容'),
+        ('Features', '特性'),
+        ('Interface', '界面'),
+        ('Mods', '模组'),
+        ('Balance', '平衡'),
+        ('I18N', '国际化'),
+        ('Bugfixes', '错误修复'),
+        ('Performance', '性能优化'),
+        ('Build', '构建'),
+        ('Infrastructure', '基础设施'),
+        ('None', '无')
     )
 
     EXAMPLE_SUMMARIES_IN_TEMPLATE = (
-        ("Category", "description"),
-        ("Category", "Brief description"),
-        ("Content", "Adds new mutation category 'Mouse'"),
+        ("分类", "描述"),
+        ("分类", "简要描述"),
+        ("内容", "新增突变类别‘Mouse’"),
     )
 
     def __init__(self, pr_id, title, author, state, body, merge_hash,
@@ -201,13 +201,14 @@ class CDDAPullRequest(PullRequest):
         matches = list(filter(summary_filter, matches))
         if len(matches) > 1:
             log.warning(f'More than one SUMMARY defined in PR {self.id}!')
-
-        match = matches[0] if matches else None
-        upper_cats = (x.upper() for x in self.VALID_SUMMARY_CATEGORIES)
-        if match is None or match.group('pr_type').upper() not in upper_cats:
-            return None, None
+        if matches:
+            match = matches[0]
         else:
-            return match.group('pr_type'), match.group('pr_desc')
+            return None, None
+        for (en, zh) in self.VALID_SUMMARY_CATEGORIES:
+            if match.group('pr_type').upper() == en.upper() or match.group('pr_type') == zh:
+                return zh, match.group('pr_desc')
+        return None, None
 
     def __str__(self):
         if self.has_valid_summary and self.summ_type == SummaryType.NONE:
@@ -240,15 +241,15 @@ class CommitFactory:
         return Commit(hash_id, message, commit_date, author, parents)
 
 
-class CDDAPullRequestFactory:
-    """Abstraction for instantiation of new CDDAPullRequests objects"""
+class CCBPullRequestFactory:
+    """Abstraction for instantiation of new CCBPullRequests objects"""
 
     def __init__(self, store_body=False):
         self.store_body = store_body
 
     def create(self, pr_id, title, author, state, body, merge_hash, merge_dttm,
                update_dttm):
-        return CDDAPullRequest(pr_id, title, author, state, body, merge_hash,
+        return CCBPullRequest(pr_id, title, author, state, body, merge_hash,
                                merge_dttm, update_dttm, self.store_body)
 
 
@@ -344,7 +345,7 @@ class CommitRepository:
         self.ref_by_commit_hash.clear()
 
 
-class CDDAPullRequestRepository:
+class CCBPullRequestRepository:
     """Groups Pull Requests for storage and common operations"""
 
     def __init__(self):
@@ -852,7 +853,7 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
 
     def create_request(self, since_dttm=None, until_dttm=None, sha='master',
                        page=1):
-        """Creates an HTTP Request to GitHub API to get Commits from CDDA
+        """Creates an HTTP Request to GitHub API to get Commits from CCB
         repository."""
         params = {
             'sha': sha,
@@ -908,7 +909,7 @@ class PullRequestApiGenerator(GitHubApiRequestBuilder):
                 return None
 
     def create_request(self, state='all', page=1):
-        """Creates an HTTP Request to GitHub API to get Pull Requests from CDDA
+        """Creates an HTTP Request to GitHub API to get Pull Requests from CCB
         repository.
 
             params:
@@ -1140,7 +1141,7 @@ def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm,
         commit_repo.add_multiple(
             commit_api.get_commit_list(target_dttm, end_dttm))
 
-        pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
+        pr_api = PullRequestApi(CCBPullRequestFactory(), personal_token)
         pr_repo.add_multiple(
             pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
 
@@ -1176,7 +1177,7 @@ def main_output(by_date, by_build, target_dttm, end_dttm, personal_token,
         build_repo = JenkinsBuildRepository()
         threads.append(get_jenkins_api_data(build_repo))
 
-    pr_repo = CDDAPullRequestRepository()
+    pr_repo = CCBPullRequestRepository()
     commit_repo = CommitRepository()
     threads.append(get_github_api_data(pr_repo, commit_repo, target_dttm,
                                        end_dttm, personal_token))

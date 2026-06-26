@@ -1405,9 +1405,9 @@ install: version $(TARGET) $(ZZIP_BIN)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
-	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.cataclysmdda.CataclysmDDA.desktop
-	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.cataclysmdda.CataclysmDDA.appdata.xml
-	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.cataclysmdda.CataclysmDDA.svg
+	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.lyhglytx.cataclysmcb.desktop
+	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.lyhglytx.cataclysmcb.appdata.xml
+	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.lyhglytx.cataclysmcb.svg
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
@@ -1442,9 +1442,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifeq ($(TILES), 1)
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
-	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.cataclysmdda.CataclysmDDA.desktop
-	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.cataclysmdda.CataclysmDDA.appdata.xml
-	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.cataclysmdda.CataclysmDDA.svg
+	install -Dm755 -t $(SHARE_DIR)/applications/ data/xdg/org.lyhglytx.cataclysmcb.desktop
+	install -Dm644 -t $(SHARE_DIR)/metainfo/ data/xdg/org.lyhglytx.cataclysmcb.appdata.xml
+	install -Dm644 -t $(SHARE_DIR)/icons/hicolor/scalable/apps/ data/xdg/org.lyhglytx.cataclysmcb.svg
 endif
 ifeq ($(SOUND), 1)
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)

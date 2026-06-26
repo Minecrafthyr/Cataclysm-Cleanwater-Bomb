@@ -31,104 +31,73 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 贡献 (Contribute)
+# 贡献
 
 **提交新议题？** 请先阅读 [ISSUES.md](./ISSUES.md)。也可以通过[社区玩家建议收集表](https://docs.qq.com/sheet/DZVJad2t0SkVFcHB0?tab=BB08J2)提交简单的问题。
 
 《Cataclysm: Cleanwater Bomb》根据知识共享署名-相同方式共享 3.0 许可协议发布。本游戏的代码和内容可出于任何目的自由使用、修改和再分发。详情请参阅 http://creativecommons.org/licenses/by-sa/3.0/。
-这意味着您对本项目所做的任何贡献也将受同一许可协议的约束，且该许可不可撤销。
+这意味着你对本项目所做的任何贡献也将受同一许可协议的约束，且该许可不可撤销。
 
-**Opening a new issue?** Please read [ISSUES.md](./ISSUES.md) first. You can also use this [Community Player Suggestions Collection Foam](https://docs.qq.com/sheet/DZVJad2t0SkVFcHB0?tab=BB08J2) to sugget simple issue.
+## 许可与作者信息
 
-Cataclysm: Cleanwater Bomb is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
-This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
+贡献内容可由提交者自行创建，也可在大型语言模型（如Deepseek）的协助下生成，但前提是提交者必须对所有生成的内容进行彻底的人工审查和验证。提交者应对该贡献承担全部责任。
 
-## 许可与作者信息 (Licensing and Authorship)
+从其他分支移植更改时，你必须通过合理设置提交记录来保留原始作者信息，确保 Author 字段准确反映原始作者，且与源分支中显示的完全一致。你应当确保移植的更改不会引入漏洞，且不违反本项目的核心理念。
 
-贡献内容可由提交者自行创建，也可在大型语言模型（如ChatGPT）的协助下生成，但前提是提交者必须对所有生成的内容进行彻底的人工审查和验证。提交者应对该贡献承担全部责任。
-
-从其他分支移植更改时，您必须通过合理安排提交记录来保留原始作者信息，确保“作者”字段准确反映原始作者，且与源分支中的显示完全一致。此外，您必须确保移植的更改不会引入安全漏洞，且不违反本项目的核心理念。如果移植的更改包含由大型语言模型生成的内容，则同样适用上述人工审核要求。
-
-Contributions may be created by the submitter or developed with the assistance of LLMs (such as ChatGPT), provided that the submitter performs thorough human review and verification of all generated content. The submitter assumes full responsibility for the contribution.
-
-When porting changes from another fork, you must preserve the original authorship by arranging your commits so that the Author field reflects the original author, exactly as they appear in the source fork. In addition, you must ensure that the ported changes do not introduce vulnerabilities and do not violate the core philosophy of this project. If the ported changes contain LLM-generated content, the same human review requirements apply.
-
-## 使用一个好编辑器 (Using a good text editor)
+## 使用一个好编辑器
 
 《Cataclysm: Cleanwater Bomb》的大部分游戏数据都定义在 JSON 文件中。
 
-这些文件的设计初衷是便于您编辑，但其中存在一些陷阱。使用 Windows 记事本可能会带来麻烦，因为它会在文件开头插入一个名为 [BOM](https://baike.baidu.com/item/BOM/2790364) 的特殊字符，而 CCBVS 并不需要这个字符。
+这些文件的设计初衷是便于你编辑，但其中存在一些陷阱。使用 Windows 记事本可能会带来麻烦，因为它会在文件开头插入一个名为 [BOM](https://baike.baidu.com/item/BOM/2790364) 的特殊字符，而 CCB 并不需要这个字符。
 
-如果您打算编辑 JSON 文件，建议使用功能更全面的编辑器，例如 [VSCode](https://code.visualstudio.com/) 或 [Zed](https://zed.dev/)。
+如果你打算编辑 JSON 文件，建议使用功能更全面的编辑器，例如 [VSCode](https://code.visualstudio.com/) 或 [Zed](https://zed.dev/)。
 
-Most of the Cataclysm: Dark Days Ahead game data is defined in JSON files.
+## 拉取请求的“概述 (Summary)”段落
 
-These files are intended to be easy for you to edit, but there are some pitfalls.  Using Windows Notepad can get you into trouble, because it likes to insert a special character called a [BOM](https://en.wikipedia.org/wiki/Byte_order_mark) at the start of the file, which CCB does not want.
-
-If you're going to be editing JSON files consider getting a more fully-featured editor such as [VSCode](https://code.visualstudio.com/) or [Zed](https://zed.dev/).
-
-## 拉取请求的“概述”段落("Summary" section of PR)
-
-“概述”是对您所做更改的一行描述，该描述将被提取并添加到[项目变更日志](./data/changelog.txt)中。格式如下：
-
-Summary is a one-line description of your change that will be extracted and added to [the project changelog](./data/changelog.txt). The format is:
+“概述”是对你所做更改的一行描述，该描述将被提取并添加到[项目变更日志](./data/changelog.txt)中。格式如下：
 
 ```markdown
 #### 概述 (Summary)
-Category "描述"
+分类“描述”
 ```
 
-可选的分类包括 - The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N.
+可选的分类包括：特性、内容、界面、模组、平衡、错误修复、性能优化、基础设施、构建、国际化。
 
 ```markdown
 #### 概述 (Summary)
-Content "新增突变类别‘Mouse’"
+内容“新增突变类别‘Mouse’”
 ```
 
 若你认为那是一个小更改，无需在变更日志中出现，可删除“概述”段落。
 
-有关各分类的说明，请参阅[CHANGELOG_GUIDELINES](./doc/CHANGELOG_GUIDELINES.md)。
+有关各分类的说明，请参阅[更新日志指南](./doc/CHANGELOG_GUIDELINES.md)。
 
-If you want it treated as a minor tweak that doesn't appear in the changelog, you can discard Summary section.
+## 通过 GitHub 贡献
 
-See [the Changelog Guidelines](./doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
+为《Cataclysm: Cleanwater Bomb》贡献代码非常简单——只需在 GitHub 上[分叉](https://github.com/LYHGLYTX/Cataclysm-Cleanwater-Bomb/fork)该代码库，进行修改，然后向我们提交拉取请求即可。
+我们建议你遵循以下几条准则（参见 [#工作流示例](#example-workflow)）：
+* 保持 `master` 分支纯净。这样你就可以轻松地将此仓库中的更改拉取到你的仓库中。
+* 针对每个新功能或一组相关的 bug 修复，请创建一个新分支。
+* 切勿将本地分支合并到 `master` 分支中。仅通过从 `upstream/master` 拉取来更新 `master` 分支。GitHub 提供了一个用于更新你分叉的 `master` 分支的按钮，因此你无需了解如何使用 git 即可完成此操作。
 
-## Contributing via GitHub
-
-***TODO: change needed here for a example workflow***
-
-Contributing to Cataclysm: Dark Days Ahead is easy — simply [fork](https://github.com/CleverRaven/Cataclysm-DDA/fork) the repository here on GitHub, make your changes, and then send us a pull request.
-
-There are a couple of guidelines we suggest sticking to (see [#Example Workflow](#example-workflow)):
-
-* Keep your `master` branch clean. This means you can easily pull changes made to this repository into yours.
-* Create a new branch for each new feature or set of related bug fixes.
-* Never merge from your local branches into your `master` branch. Only update that by pulling from `upstream/master`. GitHub has a button to update the master branch of your fork, so you do not need to know how to use git for this.
-
-## 代码风格 (Code Style)
+## 代码风格
 
 整个代码库的代码风格由 `astyle` 强制执行。
 详情请参阅 [CODE_STYLE](./doc/c++/CODE_STYLE.md)。
-您可以不遵循此风格，但维护者可能会对其进行修正。
+你可以不遵循此风格，但维护者可能会对其进行修正。
 
-Code style is enforced across the codebase by `astyle`.
-See [CODE_STYLE](./doc/c++/CODE_STYLE.md) for details.
-You are not required to follow this style, but the maintainers may correct it.
+## 翻译
 
-## 翻译 (Translations)
+《Cataclysm: Cleanwater Bomb》的翻译工作是通过 Transifex 完成的。
+请查看 [翻译项目](https://explore.transifex.com/Cataclysm-Cleanwater-Bomb/cataclysm-cleanwater-bomb) 以获取支持语言的最新列表。
 
-***TODO: change needed here, our translation project is't ready yet***
+更多信息请参阅 [TRANSLATING.md](./doc/TRANSLATING.md)：
 
-The translation of Cataclysm: DDA is done using Transifex.
-Look at the [translation project](https://explore.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
+* [面向译者](./doc/TRANSLATING.md#translators)
+* [面向开发者](./doc/TRANSLATING.md#developers)
+* [面向维护者](./doc/TRANSLATING.md#maintainers)
 
-See [TRANSLATING.md](./doc/TRANSLATING.md) for more information:
-
-* [For translators](./doc/TRANSLATING.md#translators)
-* [For developers](./doc/TRANSLATING.md#developers)
-* [For maintainers](./doc/TRANSLATING.md#maintainers)
-
-## Doxygen 注释 (Doxygen Comments)
+## Doxygen 注释
 
 Extensive documentation of classes and class members will make the code more readable. New Doxygen comments for existing classes are a welcomed contribution.
 
@@ -281,41 +250,27 @@ $ git push origin new_feature
 
 ## 草稿 (Drafts)
 
-如果您提交了 PR 但仍在处理中，请将其设为 [草稿](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)。
+如果你提交了 PR 但仍在处理中，请将其设为 [草稿](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)。
 
-If you file a PR but you're still working on it, please make it a [Draft](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
+![截图](https://docs.github.com/assets/images/help/pull_requests/pullrequest-send.png)
 
-![screenshot](https://docs.github.com/assets/images/help/pull_requests/pullrequest-send.png)
+这将告知审阅者你仍计划对 PR 进行补充，我们暂时无需进行审阅。当拉取请求准备好接受合并审核时，只需点击 [`Ready for review`](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) 按钮。
 
-这将告知审阅者你仍计划对 PR 进行补充，我们暂时无需进行审阅。当拉取请求准备好接受合并审核时，只需点击 [`准备审核`](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) 按钮。
-
-This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed for a merger, just click the [`Ready for review`](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) button.
-
-![screenshot](https://docs.github.com/assets/images/help/pull_requests/ready-for-review-button.png)
+![截图](https://docs.github.com/assets/images/help/pull_requests/ready-for-review-button.png)
 
 这样可以让我们只审核已准备就绪的内容，从而加快审核流程，并有助于避免合并尚未完全准备好的内容。
 
-This can help speed up our review process by allowing us to only review the things that are ready for it, and will help prevent merging in anything that isn't completely ready.
+### 征求意见
 
-### 征求意见 (Comment requests)
+如果你还希望寻求建议，请在标题前添加 [CR] 或 [征求意见]。当你认为已获得足够信息可以继续时，请随时移除 [CR]。
 
-如果您还希望寻求建议，请在标题前添加 [CR] 或 [征求意见]。当您认为已获得足够信息可以继续时，请随时移除 [CR]。
+提交 PR 时，无需解决或引用未解决的问题，但若你这样做了，则需详细说明你的 PR 正在解决的问题。
 
-提交 PR 时，无需解决或引用未解决的问题，但若您这样做了，则需详细说明您的 PR 正在解决的问题。
+每次在讨论或进一步思考后更改分支时，请确保你的 PR 描述仍然与当前内容相关。
 
-每次在讨论或进一步思考后更改分支时，请确保您的 PR 描述仍然与当前内容相关。
+### 使用关键词关闭问题
 
-Make sure your PR description is still relevant every time you change your branch after discussion or additional thought.
-
-If you are also looking for suggestions then add a [CR] or [Comments requested] before the title text. Feel free to remove [CR] when you feel you got enough information to proceed.
-
-It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
-
-### 使用关键词关闭问题 (Closing issues using keywords)
-
-当您的 PR 应关闭某个问题时，请包含 [关闭关键词](https://help.github.com/articles/closing-issues-using-keywords/)：
-
-When your PR should close an issue, please include [closing keywords](https://help.github.com/articles/closing-issues-using-keywords/):
+当你的 PR 应关闭某个问题时，请包含 [关闭关键词](https://help.github.com/articles/closing-issues-using-keywords/)，例如“Fixes #30”：
 
 * close
 * closes

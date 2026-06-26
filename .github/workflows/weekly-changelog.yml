@@ -11,7 +11,7 @@ on:
 
 jobs:
   weekly-changelog:
-    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    if: github.repository == 'LYHGLYTX/Cataclysm-Cleanwater-Bomb'
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -46,7 +46,7 @@ jobs:
           delete-branch: true
           base: master
           title: Weekly Changelog ${{ steps.getting-changes.outputs.old_date }} to ${{ steps.getting-changes.outputs.date }}
-          body: "#### Summary\nNone\n\n#### Additional context\n`Automatically generated as a draft. Please copy-edit before merging.`"
+          body: "#### 概述 (Summary)\n无\n\n#### 补充说明 (Additional context)\n`Automatically generated as a draft. Please copy-edit before merging.`"
           labels: Organization,<Documentation>
           # create as a draft to allow maintainers to cull the changes before merging
           draft: true
